@@ -341,7 +341,8 @@ public class Chillog {
             // Check for reserved field: _id
             Object content = logMessageJson.get("_id");
             if (content != null) {
-                logMessageJson.put("_log_id", content);
+                // Rename the field if found
+                logMessageJson.put("__id", content);
                 logMessageJson.remove("_id");
             }
         }
