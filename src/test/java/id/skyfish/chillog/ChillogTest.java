@@ -89,64 +89,64 @@ public class ChillogTest {
     public void testWarningShortMessage() {
         Chillog.warning("This is a short message");
 
-        String errContent = out.toString();
-        JSONObject errJson = JSON.parseObject(errContent);
+        String outContent = out.toString();
+        JSONObject ourJson = JSON.parseObject(outContent);
 
-        Assert.assertEquals("This is a short message", errJson.getString("short_message"));
-        Assert.assertEquals(4, errJson.getIntValue("level"));
-        Assert.assertEquals("fake-service-name", errJson.getString("service"));
+        Assert.assertEquals("This is a short message", ourJson.getString("short_message"));
+        Assert.assertEquals(4, ourJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", ourJson.getString("service"));
 
-        Assert.assertTrue(errJson.containsKey("host"));
-        Assert.assertTrue(errJson.containsKey("timestamp"));
-        Assert.assertTrue(errJson.containsKey("version"));
+        Assert.assertTrue(ourJson.containsKey("host"));
+        Assert.assertTrue(ourJson.containsKey("timestamp"));
+        Assert.assertTrue(ourJson.containsKey("version"));
     }
 
     @Test
     public void testNoticeShortMessage() {
         Chillog.notice("This is a short message");
 
-        String errContent = out.toString();
-        JSONObject errJson = JSON.parseObject(errContent);
+        String outContent = out.toString();
+        JSONObject outJson = JSON.parseObject(outContent);
 
-        Assert.assertEquals("This is a short message", errJson.getString("short_message"));
-        Assert.assertEquals(5, errJson.getIntValue("level"));
-        Assert.assertEquals("fake-service-name", errJson.getString("service"));
+        Assert.assertEquals("This is a short message", outJson.getString("short_message"));
+        Assert.assertEquals(5, outJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", outJson.getString("service"));
 
-        Assert.assertTrue(errJson.containsKey("host"));
-        Assert.assertTrue(errJson.containsKey("timestamp"));
-        Assert.assertTrue(errJson.containsKey("version"));
+        Assert.assertTrue(outJson.containsKey("host"));
+        Assert.assertTrue(outJson.containsKey("timestamp"));
+        Assert.assertTrue(outJson.containsKey("version"));
     }
 
     @Test
     public void testInfoShortMessage() {
         Chillog.info("This is a short message");
 
-        String errContent = out.toString();
-        JSONObject errJson = JSON.parseObject(errContent);
+        String outContent = out.toString();
+        JSONObject outJson = JSON.parseObject(outContent);
 
-        Assert.assertEquals("This is a short message", errJson.getString("short_message"));
-        Assert.assertEquals(6, errJson.getIntValue("level"));
-        Assert.assertEquals("fake-service-name", errJson.getString("service"));
+        Assert.assertEquals("This is a short message", outJson.getString("short_message"));
+        Assert.assertEquals(6, outJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", outJson.getString("service"));
 
-        Assert.assertTrue(errJson.containsKey("host"));
-        Assert.assertTrue(errJson.containsKey("timestamp"));
-        Assert.assertTrue(errJson.containsKey("version"));
+        Assert.assertTrue(outJson.containsKey("host"));
+        Assert.assertTrue(outJson.containsKey("timestamp"));
+        Assert.assertTrue(outJson.containsKey("version"));
     }
 
     @Test
     public void testDebugShortMessage() {
         Chillog.debug("This is a short message");
 
-        String errContent = out.toString();
-        JSONObject errJson = JSON.parseObject(errContent);
+        String outContent = out.toString();
+        JSONObject outJson = JSON.parseObject(outContent);
 
-        Assert.assertEquals("This is a short message", errJson.getString("short_message"));
-        Assert.assertEquals(7, errJson.getIntValue("level"));
-        Assert.assertEquals("fake-service-name", errJson.getString("service"));
+        Assert.assertEquals("This is a short message", outJson.getString("short_message"));
+        Assert.assertEquals(7, outJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", outJson.getString("service"));
 
-        Assert.assertTrue(errJson.containsKey("host"));
-        Assert.assertTrue(errJson.containsKey("timestamp"));
-        Assert.assertTrue(errJson.containsKey("version"));
+        Assert.assertTrue(outJson.containsKey("host"));
+        Assert.assertTrue(outJson.containsKey("timestamp"));
+        Assert.assertTrue(outJson.containsKey("version"));
     }
 
     @Test
