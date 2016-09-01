@@ -6,6 +6,8 @@ import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,13 @@ import java.util.Map;
 public class ChillogTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final ByteArrayOutputStream err = new ByteArrayOutputStream();
+
+    @BeforeClass
+    public static void setEnvironmentVariables() {
+        Map<String, String> environmentVariables = new HashMap<>();
+        environmentVariables.put("SERVICE_NAME", "fake-service-name");
+        setEnv(environmentVariables);
+    }
 
     @Before
     public void setUpStreams() {
@@ -37,6 +46,7 @@ public class ChillogTest {
 
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals(1, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
 
         Assert.assertTrue(errJson.containsKey("host"));
         Assert.assertTrue(errJson.containsKey("timestamp"));
@@ -52,6 +62,7 @@ public class ChillogTest {
 
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals(2, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
 
         Assert.assertTrue(errJson.containsKey("host"));
         Assert.assertTrue(errJson.containsKey("timestamp"));
@@ -67,6 +78,7 @@ public class ChillogTest {
 
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals(3, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
 
         Assert.assertTrue(errJson.containsKey("host"));
         Assert.assertTrue(errJson.containsKey("timestamp"));
@@ -82,6 +94,7 @@ public class ChillogTest {
 
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals(4, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
 
         Assert.assertTrue(errJson.containsKey("host"));
         Assert.assertTrue(errJson.containsKey("timestamp"));
@@ -97,6 +110,7 @@ public class ChillogTest {
 
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals(5, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
 
         Assert.assertTrue(errJson.containsKey("host"));
         Assert.assertTrue(errJson.containsKey("timestamp"));
@@ -112,6 +126,7 @@ public class ChillogTest {
 
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals(6, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
 
         Assert.assertTrue(errJson.containsKey("host"));
         Assert.assertTrue(errJson.containsKey("timestamp"));
@@ -127,6 +142,7 @@ public class ChillogTest {
 
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals(7, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
 
         Assert.assertTrue(errJson.containsKey("host"));
         Assert.assertTrue(errJson.containsKey("timestamp"));
@@ -142,6 +158,7 @@ public class ChillogTest {
         JSONObject errJson = JSON.parseObject(errContent);
 
         Assert.assertEquals(1, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a long message", errJson.getString("full_message"));
         Assert.assertEquals("value1", errJson.getString("_key1"));
@@ -161,6 +178,7 @@ public class ChillogTest {
         JSONObject errJson = JSON.parseObject(errContent);
 
         Assert.assertEquals(2, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a long message", errJson.getString("full_message"));
         Assert.assertEquals("value1", errJson.getString("_key1"));
@@ -180,6 +198,7 @@ public class ChillogTest {
         JSONObject errJson = JSON.parseObject(errContent);
 
         Assert.assertEquals(3, errJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", errJson.getString("service"));
         Assert.assertEquals("This is a short message", errJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a long message", errJson.getString("full_message"));
         Assert.assertEquals("value1", errJson.getString("_key1"));
@@ -199,6 +218,7 @@ public class ChillogTest {
         JSONObject outJson = JSON.parseObject(outContent);
 
         Assert.assertEquals(4, outJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", outJson.getString("service"));
         Assert.assertEquals("This is a short message", outJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a long message", outJson.getString("full_message"));
         Assert.assertEquals("value1", outJson.getString("_key1"));
@@ -218,6 +238,7 @@ public class ChillogTest {
         JSONObject outJson = JSON.parseObject(outContent);
 
         Assert.assertEquals(5, outJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", outJson.getString("service"));
         Assert.assertEquals("This is a short message", outJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a long message", outJson.getString("full_message"));
         Assert.assertEquals("value1", outJson.getString("_key1"));
@@ -237,6 +258,7 @@ public class ChillogTest {
         JSONObject outJson = JSON.parseObject(outContent);
 
         Assert.assertEquals(6, outJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", outJson.getString("service"));
         Assert.assertEquals("This is a short message", outJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a long message", outJson.getString("full_message"));
         Assert.assertEquals("value1", outJson.getString("_key1"));
@@ -256,6 +278,7 @@ public class ChillogTest {
         JSONObject outJson = JSON.parseObject(outContent);
 
         Assert.assertEquals(7, outJson.getIntValue("level"));
+        Assert.assertEquals("fake-service-name", outJson.getString("service"));
         Assert.assertEquals("This is a short message", outJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a long message", outJson.getString("full_message"));
         Assert.assertEquals("value1", outJson.getString("_key1"));
@@ -310,11 +333,12 @@ public class ChillogTest {
         Assert.assertTrue(logJson.containsKey("host"));
         Assert.assertTrue(logJson.containsKey("timestamp"));
         Assert.assertEquals(1, logJson.getIntValue("version"));
+        Assert.assertEquals("fake-service-name", logJson.getString("service"));
         Assert.assertEquals(Chillog.Level.ALERT.getValue(), logJson.getIntValue("level"));
         Assert.assertEquals("A short message", logJson.getString("short_message"));
 
         // Make sure there are no excessive pair
-        Assert.assertEquals(5, logJson.size());
+        Assert.assertEquals(6, logJson.size());
     }
 
     @Test
@@ -330,12 +354,13 @@ public class ChillogTest {
         Assert.assertTrue(logJson.containsKey("host"));
         Assert.assertTrue(logJson.containsKey("timestamp"));
         Assert.assertEquals(1, (int) logJson.getInteger("version"));
+        Assert.assertEquals("fake-service-name", logJson.getString("service"));
         Assert.assertEquals(Chillog.Level.ALERT.getValue(), (int) logJson.getInteger("level"));
         Assert.assertEquals("A short message", logJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a really\nreally long.\n", logJson.getString("full_message"));
 
         // Make sure there are no excessive pair
-        Assert.assertEquals(6, logJson.size());
+        Assert.assertEquals(7, logJson.size());
     }
 
     @Test
@@ -355,6 +380,7 @@ public class ChillogTest {
         Assert.assertTrue(logJson.containsKey("host"));
         Assert.assertTrue(logJson.containsKey("timestamp"));
         Assert.assertEquals(1, (int) logJson.getInteger("version"));
+        Assert.assertEquals("fake-service-name", logJson.getString("service"));
         Assert.assertEquals(Chillog.Level.ALERT.getValue(), (int) logJson.getInteger("level"));
         Assert.assertEquals("A short message", logJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a really\nreally long.\n", logJson.getString("full_message"));
@@ -362,7 +388,7 @@ public class ChillogTest {
         Assert.assertEquals("value2", logJson.getString("_key2"));
 
         // Make sure there are no excessive pair
-        Assert.assertEquals(8, logJson.size());
+        Assert.assertEquals(9, logJson.size());
     }
 
     @Test
@@ -382,12 +408,54 @@ public class ChillogTest {
         Assert.assertTrue(logJson.containsKey("timestamp"));
         Assert.assertFalse(logJson.containsKey("_id"));
         Assert.assertEquals(1, (int) logJson.getInteger("version"));
+        Assert.assertEquals("fake-service-name", logJson.getString("service"));
         Assert.assertEquals(Chillog.Level.ALERT.getValue(), (int) logJson.getInteger("level"));
         Assert.assertEquals("A short message", logJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a really\nreally long.\n", logJson.getString("full_message"));
         Assert.assertEquals("value", logJson.getString("_log_id"));
 
         // Make sure there are no excessive pair
-        Assert.assertEquals(7, logJson.size());
+        Assert.assertEquals(8, logJson.size());
+    }
+
+    /**
+     * Sets a new environment variables. Taken from http://stackoverflow.com/a/7201825
+     *
+     * @param newEnvironmentVariables The new environment variables to be set.
+     */
+    private static void setEnv(Map<String, String> newEnvironmentVariables) {
+        try
+        {
+            Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
+            Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
+            theEnvironmentField.setAccessible(true);
+            Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
+            env.putAll(newEnvironmentVariables);
+            Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
+            theCaseInsensitiveEnvironmentField.setAccessible(true);
+            Map<String, String> cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
+            cienv.putAll(newEnvironmentVariables);
+        }
+        catch (NoSuchFieldException e)
+        {
+            try {
+                Class[] classes = Collections.class.getDeclaredClasses();
+                Map<String, String> env = System.getenv();
+                for(Class cl : classes) {
+                    if("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
+                        Field field = cl.getDeclaredField("m");
+                        field.setAccessible(true);
+                        Object obj = field.get(env);
+                        Map<String, String> map = (Map<String, String>) obj;
+                        map.clear();
+                        map.putAll(newEnvironmentVariables);
+                    }
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 }

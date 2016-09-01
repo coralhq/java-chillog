@@ -52,8 +52,14 @@ public class Chillog {
      */
     private static String hostname;
 
+    /**
+     * The service name identifier of the application.
+     */
+    private static String serviceName;
+
     static {
         setHostname();
+        setServiceName();
     }
 
     /**
@@ -313,6 +319,7 @@ public class Chillog {
 
         logMessageJson.put("version", 1);
         logMessageJson.put("host", hostname);
+        logMessageJson.put("service", serviceName);
         logMessageJson.put("short_message", shortMessage);
         logMessageJson.put("timestamp", timestamp);
         logMessageJson.put("level", level.getValue());
@@ -410,6 +417,21 @@ public class Chillog {
         if (hostname == null) {
             hostname = "";
         }
+    }
+
+    /**
+     * Sets the service name.
+     *
+     * This method will set the service name for logging purpose. The value will be fetched
+     * from environment variable called SERVICE_NAME. If no such environment variable found,
+     * {@link RuntimeException} will be thrown.
+     */
+    private static void setServiceName() {
+        serviceName = System.getenv("SERVICE_NAME");
+
+        if (serviceName == null) {
+            throw new RuntimeException("SERVICE_NAME is not set. Please set it in your environment variable.");
+        };
     }
 
     /**
