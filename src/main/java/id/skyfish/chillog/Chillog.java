@@ -396,8 +396,8 @@ public class Chillog {
      * <p>
      * This method will set the hostname for logging purpose. The way it does this is by:
      * <p>
-     * 1. Checks whether environment variable called CHILLOG_HOSTNAME is set. If it is,
-     *    the hostname will be set according to the value of this environment value.
+     * 1. Checks whether environment variable called HOSTNAME is set. If it is, the hostname
+     *    will be set according to the value of this environment value.
      * 2. If hostname is still not set, this method will try to get the local hostname by
      *    calling <code>InetAddress.getLocalHost().getHostName()</code>, and then set the
      *    hostname according to the result.
@@ -405,7 +405,7 @@ public class Chillog {
      *    will be set to empty string (i.e. "").
      */
     private static void setHostname() {
-        hostname = System.getenv("CHILLOG_HOSTNAME");
+        hostname = System.getenv("HOSTNAME");
 
         if (hostname == null) {
             try {
