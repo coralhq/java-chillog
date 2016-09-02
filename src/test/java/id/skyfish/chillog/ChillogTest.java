@@ -412,7 +412,7 @@ public class ChillogTest {
         Assert.assertEquals(Chillog.Level.ALERT.getValue(), (int) logJson.getInteger("level"));
         Assert.assertEquals("A short message", logJson.getString("short_message"));
         Assert.assertEquals("This supposed to be a really\nreally long.\n", logJson.getString("full_message"));
-        Assert.assertEquals("value", logJson.getString("_log_id"));
+        Assert.assertEquals("value", logJson.getString("__id"));
 
         // Make sure there are no excessive pair
         Assert.assertEquals(8, logJson.size());
