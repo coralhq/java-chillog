@@ -291,21 +291,21 @@ public class ChillogTest {
 
     @Test
     public void testConvertToPairsNullParameter() {
-        Map<String, String> pairs = Chillog.convertToMap(null);
+        Map<String, Object> pairs = Chillog.convertToMap(null);
 
         Assert.assertEquals(0, pairs.size());
     }
 
     @Test
     public void testConvertToPairsNoContents() {
-        Map<String, String> pairs = Chillog.convertToMap(new String[] {});
+        Map<String, Object> pairs = Chillog.convertToMap(new String[] {});
 
         Assert.assertEquals(0, pairs.size());
     }
 
     @Test
     public void testConvertToPairsTwoContents() {
-        Map<String, String> pairs = Chillog.convertToMap(new String[]{"key", "value"});
+        Map<String, Object> pairs = Chillog.convertToMap(new String[]{"key", "value"});
 
         Assert.assertEquals(1, pairs.size());
         Assert.assertEquals("value", pairs.get("key"));
@@ -313,7 +313,7 @@ public class ChillogTest {
 
     @Test
     public void testConvertToPairsOddContents() {
-        Map<String, String> pairs = Chillog.convertToMap(new String[]{"key1", "value1", "key2"});
+        Map<String, Object> pairs = Chillog.convertToMap(new String[]{"key1", "value1", "key2"});
 
         Assert.assertEquals(2, pairs.size());
         Assert.assertEquals("value1", pairs.get("key1"));
@@ -365,7 +365,7 @@ public class ChillogTest {
 
     @Test
     public void testGenerateJsonStringWithAdditionalFields() {
-        Map<String, String> additionalFields = new HashMap<>();
+        Map<String, Object> additionalFields = new HashMap<>();
         additionalFields.put("key1", "value1");
         additionalFields.put("key2", "value2");
 
@@ -392,8 +392,36 @@ public class ChillogTest {
     }
 
     @Test
+    public void testGenerateJsonStringWithAdditionalContainsNull() {
+        Map<String, Object> additionalFields = new HashMap<>();
+        additionalFields.put("key1", "value1");
+        additionalFields.put("key2", null);
+
+        String logJsonString = Chillog.generateJsonString(
+                "A short message",
+                "This supposed to be a really\nreally long.\n",
+                System.currentTimeMillis(),
+                Chillog.Level.ALERT,
+                additionalFields);
+
+        JSONObject logJson = JSON.parseObject(logJsonString);
+        Assert.assertTrue(logJson.containsKey("host"));
+        Assert.assertTrue(logJson.containsKey("timestamp"));
+        Assert.assertEquals(1, (int) logJson.getInteger("version"));
+        Assert.assertEquals("fake-service-name", logJson.getString("service"));
+        Assert.assertEquals(Chillog.Level.ALERT.getValue(), (int) logJson.getInteger("level"));
+        Assert.assertEquals("A short message", logJson.getString("short_message"));
+        Assert.assertEquals("This supposed to be a really\nreally long.\n", logJson.getString("full_message"));
+        Assert.assertEquals("value1", logJson.getString("_key1"));
+        Assert.assertEquals("NULL", logJson.getString("_key2"));
+
+        // Make sure there are no excessive pair
+        Assert.assertEquals(9, logJson.size());
+    }
+
+    @Test
     public void testGenerateJsonStringWithAdditionalReservedField() {
-        Map<String, String> additionalFields = new HashMap<>();
+        Map<String, Object> additionalFields = new HashMap<>();
         additionalFields.put("id", "value");
 
         String logJsonString = Chillog.generateJsonString(

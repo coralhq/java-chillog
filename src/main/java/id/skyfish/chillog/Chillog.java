@@ -45,7 +45,7 @@ public class Chillog {
     /**
      * Null Object pattern to ease checking for empty pairs.
      */
-    static final Map<String, String> EMPTY_PAIRS = Collections.emptyMap();
+    static final Map<String, Object> EMPTY_PAIRS = Collections.emptyMap();
 
     /**
      * Hostname of the machine where the application is running.
@@ -140,7 +140,7 @@ public class Chillog {
      * @param keyValuePairs Varargs that will be used as additional information, formatted as a key-value pairs.
      */
     public static void alert(String shortMessage, String fullMessage, String... keyValuePairs) {
-        Map<String, String> additionalFields = convertToMap(keyValuePairs);
+        Map<String, Object> additionalFields = convertToMap(keyValuePairs);
         alert(shortMessage, fullMessage, additionalFields);
     }
 
@@ -157,7 +157,7 @@ public class Chillog {
      * @param keyValuePairs Varargs that will be used as additional information, formatted as a key-value pairs.
      */
     public static void critical(String shortMessage, String fullMessage, String... keyValuePairs) {
-        Map<String, String> additionalFields = convertToMap(keyValuePairs);
+        Map<String, Object> additionalFields = convertToMap(keyValuePairs);
         critical(shortMessage, fullMessage, additionalFields);
     }
 
@@ -174,7 +174,7 @@ public class Chillog {
      * @param keyValuePairs Varargs that will be used as additional information, formatted as a key-value pairs.
      */
     public static void error(String shortMessage, String fullMessage, String... keyValuePairs) {
-        Map<String, String> additionalFields = convertToMap(keyValuePairs);
+        Map<String, Object> additionalFields = convertToMap(keyValuePairs);
         error(shortMessage, fullMessage, additionalFields);
     }
 
@@ -191,7 +191,7 @@ public class Chillog {
      * @param keyValuePairs Varargs that will be used as additional information, formatted as a key-value pairs.
      */
     public static void warning(String shortMessage, String fullMessage, String... keyValuePairs) {
-        Map<String, String> additionalFields = convertToMap(keyValuePairs);
+        Map<String, Object> additionalFields = convertToMap(keyValuePairs);
         warning(shortMessage, fullMessage, additionalFields);
     }
 
@@ -208,7 +208,7 @@ public class Chillog {
      * @param keyValuePairs Varargs that will be used as additional information, formatted as a key-value pairs.
      */
     public static void notice(String shortMessage, String fullMessage, String... keyValuePairs) {
-        Map<String, String> additionalFields = convertToMap(keyValuePairs);
+        Map<String, Object> additionalFields = convertToMap(keyValuePairs);
         notice(shortMessage, fullMessage, additionalFields);
     }
 
@@ -225,7 +225,7 @@ public class Chillog {
      * @param keyValuePairs Varargs that will be used as additional information, formatted as a key-value pairs.
      */
     public static void info(String shortMessage, String fullMessage, String... keyValuePairs) {
-        Map<String, String> additionalFields = convertToMap(keyValuePairs);
+        Map<String, Object> additionalFields = convertToMap(keyValuePairs);
         info(shortMessage, fullMessage, additionalFields);
     }
 
@@ -242,37 +242,121 @@ public class Chillog {
      * @param keyValuePairs Varargs that will be used as additional information, formatted as a key-value pairs.
      */
     public static void debug(String shortMessage, String fullMessage, String... keyValuePairs) {
-        Map<String, String> additionalFields = convertToMap(keyValuePairs);
+        Map<String, Object> additionalFields = convertToMap(keyValuePairs);
         debug(shortMessage, fullMessage, additionalFields);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void alert(String shortMessage, String fullMessage, Map<String, String> additionalFields) {
+    /**
+     * Prints a Chillog-formatted message to STDERR, with "action must be taken immediately" severity.
+     * <p>
+     * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
+     * printed along with the message.
+     *
+     * @param shortMessage     Short message that describe the event.
+     * @param fullMessage      More-detailed message.
+     * @param additionalFields Map of String to Object. The content of this variable will be printed alongside the
+     *                         message. To get the string representation, object's <code>toString()</code> method
+     *                         will be called in the implementation.
+     */
+    public static void alert(String shortMessage, String fullMessage, Map<String, Object> additionalFields) {
         log(shortMessage, fullMessage, getMillisTimestamp(), Level.ALERT, additionalFields);
     }
 
-    public static void critical(String shortMessage, String fullMessage, Map<String, String> additionalFields) {
+    /**
+     * Prints a Chillog-formatted message to STDERR, with "critical conditions" severity.
+     * <p>
+     * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
+     * printed along with the message.
+     *
+     * @param shortMessage     Short message that describe the event.
+     * @param fullMessage      More-detailed message.
+     * @param additionalFields Map of String to Object. The content of this variable will be printed alongside the
+     *                         message. To get the string representation, object's <code>toString()</code> method
+     *                         will be called in the implementation.
+     */
+    public static void critical(String shortMessage, String fullMessage, Map<String, Object> additionalFields) {
         log(shortMessage, fullMessage, getMillisTimestamp(), Level.CRITICAL, additionalFields);
     }
 
-    public static void error(String shortMessage, String fullMessage, Map<String, String> additionalFields) {
+    /**
+     * Prints a Chillog-formatted message to STDERR, with "error conditions" severity.
+     * <p>
+     * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
+     * printed along with the message.
+     *
+     * @param shortMessage     Short message that describe the event.
+     * @param fullMessage      More-detailed message.
+     * @param additionalFields Map of String to Object. The content of this variable will be printed alongside the
+     *                         message. To get the string representation, object's <code>toString()</code> method
+     *                         will be called in the implementation.
+     */
+    public static void error(String shortMessage, String fullMessage, Map<String, Object> additionalFields) {
         log(shortMessage, fullMessage, getMillisTimestamp(), Level.ERROR, additionalFields);
     }
 
-    public static void warning(String shortMessage, String fullMessage, Map<String, String> additionalFields) {
+    /**
+     * Prints a Chillog-formatted message to STDOUT, with "warning conditions" severity.
+     * <p>
+     * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
+     * printed along with the message.
+     *
+     * @param shortMessage     Short message that describe the event.
+     * @param fullMessage      More-detailed message.
+     * @param additionalFields Map of String to Object. The content of this variable will be printed alongside the
+     *                         message. To get the string representation, object's <code>toString()</code> method
+     *                         will be called in the implementation.
+     */
+    public static void warning(String shortMessage, String fullMessage, Map<String, Object> additionalFields) {
         log(shortMessage, fullMessage, getMillisTimestamp(), Level.WARNING, additionalFields);
     }
 
-    public static void notice(String shortMessage, String fullMessage, Map<String, String> additionalFields) {
+    /**
+     * Prints a Chillog-formatted message to STDOUT, with "normal but significant condition" severity.
+     * <p>
+     * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
+     * printed along with the message.
+     *
+     * @param shortMessage     Short message that describe the event.
+     * @param fullMessage      More-detailed message.
+     * @param additionalFields Map of String to Object. The content of this variable will be printed alongside the
+     *                         message. To get the string representation, object's <code>toString()</code> method
+     *                         will be called in the implementation.
+     */
+    public static void notice(String shortMessage, String fullMessage, Map<String, Object> additionalFields) {
         log(shortMessage, fullMessage, getMillisTimestamp(), Level.NOTICE, additionalFields);
     }
 
-    public static void info(String shortMessage, String fullMessage, Map<String, String> additionalFields) {
+    /**
+     * Prints a Chillog-formatted message to STDOUT, with "informational messages" severity.
+     * <p>
+     * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
+     * printed along with the message.
+     *
+     * @param shortMessage     Short message that describe the event.
+     * @param fullMessage      More-detailed message.
+     * @param additionalFields Map of String to Object. The content of this variable will be printed alongside the
+     *                         message. To get the string representation, object's <code>toString()</code> method
+     *                         will be called in the implementation.
+     */
+    public static void info(String shortMessage, String fullMessage, Map<String, Object> additionalFields) {
         log(shortMessage, fullMessage, getMillisTimestamp(), Level.INFORMATIONAL, additionalFields);
     }
 
-    public static void debug(String shortMessage, String fullMessage, Map<String, String> additionalFields) {
+    /**
+     * Prints a Chillog-formatted message to STDOUT, with "debug-level messages" severity.
+     * <p>
+     * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
+     * printed along with the message.
+     *
+     * @param shortMessage     Short message that describe the event.
+     * @param fullMessage      More-detailed message.
+     * @param additionalFields Map of String to Object. The content of this variable will be printed alongside the
+     *                         message. To get the string representation, object's <code>toString()</code> method
+     *                         will be called in the implementation.
+     */
+    public static void debug(String shortMessage, String fullMessage, Map<String, Object> additionalFields) {
         log(shortMessage, fullMessage, getMillisTimestamp(), Level.DEBUG, additionalFields);
     }
 
@@ -289,7 +373,7 @@ public class Chillog {
      * @param additionalFields Additional information about the event.
      */
     static void log(String shortMessage, String fullMessage, long timestamp,
-                    Level level, Map<String, String> additionalFields) {
+                    Level level, Map<String, Object> additionalFields) {
         String logMessageString = generateJsonString(shortMessage, fullMessage, timestamp, level, additionalFields);
         if (level.getValue() >= Level.WARNING.getValue()) {
             System.out.println(logMessageString);
@@ -310,7 +394,7 @@ public class Chillog {
      * @return A valid JSON string that conforms with the Chillog Logging Format v1.
      */
     static String generateJsonString(String shortMessage, String fullMessage, long timestamp, Level level,
-                                     Map<String, String> additionalFields) {
+                                     Map<String, Object> additionalFields) {
         JSONObject logMessageJson = new JSONObject();
 
         /*
@@ -334,8 +418,14 @@ public class Chillog {
         }
 
         if (additionalFields != EMPTY_PAIRS) {
-            for (Map.Entry<String, String> additionalField : additionalFields.entrySet()) {
-                logMessageJson.put("_" + additionalField.getKey(), additionalField.getValue());
+            for (Map.Entry<String, Object> additionalField : additionalFields.entrySet()) {
+                Object key = additionalField.getKey();
+                Object value = additionalField.getValue();
+                if (value != null) {
+                    logMessageJson.put("_" + key, value.toString());
+                } else {
+                    logMessageJson.put("_" + key, "NULL");
+                }
             }
 
             // Check for reserved field: _id
@@ -368,12 +458,12 @@ public class Chillog {
      * @param strings array that contains key-value pairs.
      * @return Map of string to string where each entry corresponds to key-value pair.
      */
-    static Map<String, String> convertToMap(String[] strings) {
+    static Map<String, Object> convertToMap(String[] strings) {
         if (strings == null) {
             return EMPTY_PAIRS;
         }
 
-        Map<String, String> pairs = new HashMap<>();
+        Map<String, Object> pairs = new HashMap<>();
 
         // Loop through each pairs.
         int pairCount = (int) Math.ceil((float) strings.length / 2);
