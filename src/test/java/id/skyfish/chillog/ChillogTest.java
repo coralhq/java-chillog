@@ -290,6 +290,67 @@ public class ChillogTest {
     }
 
     @Test
+    public void testCreateMap() {
+        Map<String, Object> map = Chillog.map("key1", 1, "key2", "something");
+
+        Assert.assertEquals(2, map.size());
+        Assert.assertEquals(1, map.get("key1"));
+        Assert.assertEquals("something", map.get("key2"));
+    }
+
+    @Test
+    public void testCreateMapWithCustomObject() {
+        class Custom {
+            int number;
+
+            private Custom(int number) {
+                this.number = number;
+            }
+        }
+
+        Custom c = new Custom(10);
+        Map<String, Object> map = Chillog.map("key1", 1, "key2", "something", "key3", c);
+
+        Assert.assertEquals(3, map.size());
+        Assert.assertEquals(1, map.get("key1"));
+        Assert.assertEquals("something", map.get("key2"));
+        Assert.assertEquals(c, map.get("key3"));
+    }
+
+    @Test
+    public void testCreateMapWithOddNumberObjects() {
+        Map<String, Object> map = Chillog.map("key1", 1, "key2", "something", "key3");
+
+        Assert.assertEquals(3, map.size());
+        Assert.assertEquals(1, map.get("key1"));
+        Assert.assertEquals("something", map.get("key2"));
+        Assert.assertEquals("", map.get("key3"));
+    }
+
+    @Test
+    public void testCreateMapWithCustomObjectAsKey() {
+        class Custom {
+            int number;
+
+            private Custom(int number) {
+                this.number = number;
+            }
+
+            @Override
+            public String toString() {
+                return "" + number;
+            }
+        }
+
+        Map<String, Object> map = Chillog.map("key1", 1, "key2", "something", new Custom(10), "value3");
+
+        Assert.assertEquals(3, map.size());
+        Assert.assertEquals(1, map.get("key1"));
+        Assert.assertEquals("something", map.get("key2"));
+        Assert.assertEquals("value3", map.get("10"));
+    }
+
+    @Test
     public void testConvertToPairsNullParameter() {
         Map<String, Object> pairs = Chillog.convertToMap(null);
 

@@ -249,6 +249,37 @@ public class Chillog {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Creates a map containing key-value pairs. The format must be interleaving key and value.
+     * Sample: <code>map("key1", 1, "key2", "value2", "key3", new Something(3);</code>.
+     *
+     * @param key               The key of first pair.
+     * @param value             The value of first pair.
+     * @param keyValuePairs     The rest of pairs.
+     *
+     * @return Map contains key-value pairs.
+     */
+    public static Map<String, Object> map(String key, Object value, Object... keyValuePairs) {
+        Map<String, Object> result = new HashMap<>(keyValuePairs.length / 2 + 1, 1f);
+
+        result.put(key, value);
+        for (int i = 0; i < keyValuePairs.length; ) {
+            Object k = i < keyValuePairs.length ? keyValuePairs[i++] : null;
+            Object v = i < keyValuePairs.length ? keyValuePairs[i++] : null;
+            if (k != null) {
+                if (v != null) {
+                    result.put(k.toString(), v);
+                } else {
+                    result.put(k.toString(), "");
+                }
+            }
+        }
+
+        return result;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
      * Prints a Chillog-formatted message to STDERR, with "action must be taken immediately" severity.
      * <p>
      * To help debugging/tracing, caller can use the additionalFields parameter. The contents of the map will be
