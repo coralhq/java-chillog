@@ -438,7 +438,7 @@ public class Chillog {
     /**
      * Gets how long milliseconds has passed since January 1st, 1970.
      *
-     * @return A value that
+     * @return A milliseconds value that represent the time passed since January 1st, 1970.
      */
     private static long getMillisTimestamp() {
         return System.currentTimeMillis();
