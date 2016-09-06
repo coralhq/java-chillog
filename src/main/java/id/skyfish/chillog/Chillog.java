@@ -129,7 +129,7 @@ public class Chillog {
 
     /**
      * Prints a Chillog-formatted message to STDERR, with "action must be taken immediately" severity.
-     *
+     * <p>
      * To help debugging/tracing, caller can use the keyValuePairs parameter. Input to this parameter must be formatted
      * as interleaving key and value. This method, then, will parse adjacent key and value as a pair. For example,
      * when caller wants to add information about HTTP Request ID and HTTP Referer, callee can format the parameter as
@@ -146,7 +146,7 @@ public class Chillog {
 
     /**
      * Prints a Chillog-formatted message to STDERR, with "critical conditions" severity.
-     *
+     * <p>
      * To help debugging/tracing, caller can use the keyValuePairs parameter. Input to this parameter must be formatted
      * as interleaving key and value. This method, then, will parse adjacent key and value as a pair. For example,
      * when caller wants to add information about HTTP Request ID and HTTP Referer, callee can format the parameter as
@@ -163,7 +163,7 @@ public class Chillog {
 
     /**
      * Prints a Chillog-formatted message to STDERR, with "error conditions" severity.
-     *
+     * <p>
      * To help debugging/tracing, caller can use the keyValuePairs parameter. Input to this parameter must be formatted
      * as interleaving key and value. This method, then, will parse adjacent key and value as a pair. For example,
      * when caller wants to add information about HTTP Request ID and HTTP Referer, callee can format the parameter as
@@ -180,7 +180,7 @@ public class Chillog {
 
     /**
      * Prints a Chillog-formatted message to STDOUT, with "warning conditions" severity.
-     *
+     * <p>
      * To help debugging/tracing, caller can use the keyValuePairs parameter. Input to this parameter must be formatted
      * as interleaving key and value. This method, then, will parse adjacent key and value as a pair. For example,
      * when caller wants to add information about HTTP Request ID and HTTP Referer, callee can format the parameter as
@@ -197,7 +197,7 @@ public class Chillog {
 
     /**
      * Prints a Chillog-formatted message to STDOUT, with "normal but significant condition" severity.
-     *
+     * <p>
      * To help debugging/tracing, caller can use the keyValuePairs parameter. Input to this parameter must be formatted
      * as interleaving key and value. This method, then, will parse adjacent key and value as a pair. For example,
      * when caller wants to add information about HTTP Request ID and HTTP Referer, callee can format the parameter as
@@ -214,7 +214,7 @@ public class Chillog {
 
     /**
      * Prints a Chillog-formatted message to STDOUT, with "informational messages" severity.
-     *
+     * <p>
      * To help debugging/tracing, caller can use the keyValuePairs parameter. Input to this parameter must be formatted
      * as interleaving key and value. This method, then, will parse adjacent key and value as a pair. For example,
      * when caller wants to add information about HTTP Request ID and HTTP Referer, callee can format the parameter as
@@ -231,7 +231,7 @@ public class Chillog {
 
     /**
      * Prints a Chillog-formatted message to STDOUT, with "debug-level messages" severity.
-     *
+     * <p>
      * To help debugging/tracing, caller can use the keyValuePairs parameter. Input to this parameter must be formatted
      * as interleaving key and value. This method, then, will parse adjacent key and value as a pair. For example,
      * when caller wants to add information about HTTP Request ID and HTTP Referer, callee can format the parameter as
@@ -252,10 +252,9 @@ public class Chillog {
      * Creates a map containing key-value pairs. The format must be interleaving key and value.
      * Sample: <code>map("key1", 1, "key2", "value2", "key3", new Something(3);</code>.
      *
-     * @param key               The key of first pair.
-     * @param value             The value of first pair.
-     * @param keyValuePairs     The rest of pairs.
-     *
+     * @param key           The key of first pair.
+     * @param value         The value of first pair.
+     * @param keyValuePairs The rest of pairs.
      * @return Map contains key-value pairs.
      */
     public static Map<String, Object> map(String key, Object value, Object... keyValuePairs) {
@@ -397,10 +396,10 @@ public class Chillog {
      * Log message to either STDOUT (for message with WARNING or above severity) or STDERR (for message with ERROR or
      * below severity).
      *
-     * @param shortMessage Short message about the event.
-     * @param fullMessage More-detailed message about the event. Can be null.
-     * @param timestamp Milliseconds passed since January 1st, 1970.
-     * @param level The severity {@link Level} of the event.
+     * @param shortMessage     Short message about the event.
+     * @param fullMessage      More-detailed message about the event. Can be null.
+     * @param timestamp        Milliseconds passed since January 1st, 1970.
+     * @param level            The severity {@link Level} of the event.
      * @param additionalFields Additional information about the event.
      */
     static void log(String shortMessage, String fullMessage, long timestamp,
@@ -416,12 +415,11 @@ public class Chillog {
     /**
      * Generate log message that conforms with the Chillog Logging Format v1.
      *
-     * @param shortMessage Short message about the event.
-     * @param fullMessage More-detailed message about the event. Can be null.
-     * @param timestamp Milliseconds passed since January 1st, 1970.
-     * @param level The severity {@link Level} of the event.
+     * @param shortMessage     Short message about the event.
+     * @param fullMessage      More-detailed message about the event. Can be null.
+     * @param timestamp        Milliseconds passed since January 1st, 1970.
+     * @param level            The severity {@link Level} of the event.
      * @param additionalFields Additional information about the event.
-     *
      * @return A valid JSON string that conforms with the Chillog Logging Format v1.
      */
     static String generateJsonString(String shortMessage, String fullMessage, long timestamp, Level level,
@@ -473,9 +471,9 @@ public class Chillog {
 
     /**
      * Converts an array of {@link String} to a key-value pair contained in a {@link Map}.
-     *
-     * <p>The callee must make sure that the format of the input follows the pattern:
-     *
+     * <p>
+     * The callee must make sure that the format of the input follows the pattern:
+     * <p>
      * <pre>
      * 0: [key1],
      * 1: [value1],
@@ -517,14 +515,14 @@ public class Chillog {
      * Sets the hostname.
      * <p>
      * This method will set the hostname for logging purpose. The way it does this is by:
-     * <p>
-     * 1. Checks whether environment variable called HOSTNAME is set. If it is, the hostname
-     *    will be set according to the value of this environment value.
-     * 2. If hostname is still not set, this method will try to get the local hostname by
-     *    calling <code>InetAddress.getLocalHost().getHostName()</code>, and then set the
-     *    hostname according to the result.
-     * 3. If the hostname is still not set (because previous two methods fail), the hostname
-     *    will be set to empty string (i.e. "").
+     * <ol>
+     * <li>Checks whether environment variable called HOSTNAME is set. If it is, the hostname
+     * will be set according to the value of this environment value.</li>
+     * <li>If hostname is still not set, this method will try to get the local hostname by
+     * calling <code>InetAddress.getLocalHost().getHostName()</code>, and then set the
+     * hostname according to the result.</li>
+     * <li>If the hostname is still not set, the hostname will be set to empty string (i.e. "").</li>
+     * </ol>
      */
     private static void setHostname() {
         hostname = System.getenv("HOSTNAME");
@@ -543,7 +541,7 @@ public class Chillog {
 
     /**
      * Sets the service name.
-     *
+     * <p>
      * This method will set the service name for logging purpose. The value will be fetched
      * from environment variable called SERVICE_NAME. If no such environment variable found,
      * {@link RuntimeException} will be thrown.
@@ -553,7 +551,7 @@ public class Chillog {
 
         if (serviceName == null) {
             throw new RuntimeException("SERVICE_NAME is not set. Please set it in your environment variable.");
-        };
+        }
     }
 
     /**
