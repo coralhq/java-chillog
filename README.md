@@ -67,7 +67,7 @@ There only one helper API:
     Map<String, Object> result = new HashMap<>();
     result.put("key1", 1);
     result.put("key2", "value2");
-    result.put("key3", new Something(3);
+    result.put("key3", new Something(3));
     ```
 
 ## Test
