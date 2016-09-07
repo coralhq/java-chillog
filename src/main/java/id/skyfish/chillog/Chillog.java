@@ -252,15 +252,12 @@ public class Chillog {
      * Creates a map containing key-value pairs. The format must be interleaving key and value.
      * Sample: <code>map("key1", 1, "key2", "value2", "key3", new Something(3);</code>.
      *
-     * @param key           The key of first pair.
-     * @param value         The value of first pair.
-     * @param keyValuePairs The rest of pairs.
+     * @param keyValuePairs The key-value pairs.
      * @return Map contains key-value pairs.
      */
-    public static Map<String, Object> map(String key, Object value, Object... keyValuePairs) {
-        Map<String, Object> result = new HashMap<>(keyValuePairs.length / 2 + 1, 1f);
+    public static Map<String, Object> map(Object... keyValuePairs) {
+        Map<String, Object> result = new HashMap<>(keyValuePairs.length / 2, 1f);
 
-        result.put(key, value);
         for (int i = 0; i < keyValuePairs.length; ) {
             Object k = i < keyValuePairs.length ? keyValuePairs[i++] : null;
             Object v = i < keyValuePairs.length ? keyValuePairs[i++] : null;
